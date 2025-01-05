@@ -30,8 +30,11 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 
 # Initialize Supabase client
 try:
-    # Simpler initialization without custom options
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    # Initialize with default options
+    supabase = create_client(
+        supabase_url=SUPABASE_URL,
+        supabase_key=SUPABASE_KEY
+    )
     print("✓ Successfully initialized Supabase client")
 except Exception as e:
     print(f"❌ Error initializing Supabase client: {str(e)}")
