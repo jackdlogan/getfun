@@ -12,12 +12,37 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Supabase configuration
-SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://pbkamswcramhkheynjgq.supabase.co')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY', 'your-default-key')
+# Supabase configuration with error checking
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("""
+    Missing Supabase credentials!
+    Please set SUPABASE_URL and SUPABASE_KEY environment variables.
+    Current values:
+    SUPABASE_URL: {url}
+    SUPABASE_KEY: {key}
+    """.format(
+        url=SUPABASE_URL or 'Not set',
+        key='[Hidden]' if SUPABASE_KEY else 'Not set'
+    ))
 
 # Initialize Supabase client
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+try:
+    options = {
+        'headers': {
+            'apikey': SUPABASE_KEY
+        },
+        'auth': {
+            'persistSession': False
+        }
+    }
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
+    print("✓ Successfully initialized Supabase client")
+except Exception as e:
+    print(f"❌ Error initializing Supabase client: {str(e)}")
+    raise
 
 async def init_db():
     """Initialize connection to Supabase"""
