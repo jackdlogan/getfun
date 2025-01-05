@@ -1,0 +1,1 @@
+worker: python pump_token_scanner.py 
