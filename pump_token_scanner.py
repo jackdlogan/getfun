@@ -30,15 +30,8 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 
 # Initialize Supabase client
 try:
-    options = {
-        'headers': {
-            'apikey': SUPABASE_KEY
-        },
-        'auth': {
-            'persistSession': False
-        }
-    }
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
+    # Simpler initialization without custom options
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     print("✓ Successfully initialized Supabase client")
 except Exception as e:
     print(f"❌ Error initializing Supabase client: {str(e)}")
