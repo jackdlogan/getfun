@@ -33,7 +33,11 @@ try:
     # Initialize with default options
     supabase = create_client(
         supabase_url=SUPABASE_URL,
-        supabase_key=SUPABASE_KEY
+        supabase_key=SUPABASE_KEY,
+        options={
+            'postgrest_client_timeout': 30,
+            'storage_client_timeout': 30
+        }
     )
     print("✓ Successfully initialized Supabase client")
 except Exception as e:
